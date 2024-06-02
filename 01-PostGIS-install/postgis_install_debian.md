@@ -3,6 +3,8 @@
 <h2>Versão do PostgreSQL utilizada: 16.3</h2>
 <h2>Versão do PostGIS utilizada: 3.4</h2>
 
+<br>
+
 **1 - Verifique se o PostgreSQL esta instalado:**
 
 
@@ -13,9 +15,13 @@ dpkg -l | grep postgresql
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/dpkg_postgresql.png" alt="Saida do comando dpkg">
 
+<br>
+
 **2 - Caso o PostgreSQL não esteja instalado siga a instalação indicada no repositório do link abaixo:**
 
 https://github.com/ramos-r29/PostgreSQL/tree/main/01-PostgreSQL-install-debian
+
+<br>
 
 **3 - Verifique se extensão está disponível:**
 
@@ -27,6 +33,8 @@ apt search postgresql-16 | grep postgis
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/search.png" alt="Saida do comando search">
 
+<br>
+
 **4 - Instale os pacotes do PostGIS:**
 
 
@@ -34,6 +42,8 @@ apt search postgresql-16 | grep postgis
 sudo apt-get install -y postgis
 
 ```
+
+<br>
 
 **5 - Atualize os pacotes:**
 
@@ -43,6 +53,8 @@ sudo apt-get -y update
 
 ```
 
+<br>
+
 **6 - Confirme a instalação do PostGIS:**
 
 
@@ -51,6 +63,8 @@ dpkg -l | grep postgis
 
 ```
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/dpkg_postgis.png" alt="Saida do comando dpkg">
+
+<br>
 
 **7 - Faça login no PostgreSQL a partir de um client como o _psql_, por exemplo, e crie a extensão postgis:**
 
@@ -73,6 +87,8 @@ CREATE EXTENSION postgis;
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/create.png" alt="Saida do comando create">
 
+<br>
+
 **8 - Verifique se extensão foi criada:**
 
 ```sql
@@ -83,6 +99,8 @@ SELECT  oid,  extname, extowner, extnamespace, extrelocatable, extversion, extco
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/select.png" alt="Saida do comando select">
 
 <h6>Pronto, o PostGIS esta instado e pronto para uso !!</h6>
+
+<br>
 
 **Fonte:**
 
