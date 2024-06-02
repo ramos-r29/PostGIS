@@ -5,8 +5,11 @@
 
 **1 - Verifique se o PostgreSQL esta instalado:**
 
-`dpkg -l | grep postgresql`
 
+```shell
+dpkg -l | grep postgresql
+
+```
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/dpkg_postgresql.png" alt="Saida do comando dpkg">
 
@@ -16,38 +19,66 @@ https://github.com/ramos-r29/PostgreSQL/tree/main/01-PostgreSQL-install-debian
 
 **3 - Verifique se extensão está disponível:**
 
-`apt search postgresql-16 | grep postgis`
+
+```shell
+apt search postgresql-16 | grep postgis
+
+```
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/search.png" alt="Saida do comando search">
 
 **4 - Instale os pacotes do PostGIS:**
 
-`sudo apt-get install -y postgis`
+
+```shell
+sudo apt-get install -y postgis
+
+```
 
 **5 - Atualize os pacotes:**
 
-`sudo apt-get -y update`
+
+```shell
+sudo apt-get -y update
+
+```
 
 **6 - Confirme a instalação do PostGIS:**
 
-`dpkg -l | grep postgis`
 
+```shell
+dpkg -l | grep postgis
+
+```
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/dpkg_postgis.png" alt="Saida do comando dpkg">
 
 **7 - Faça login no PostgreSQL a partir de um client como o _psql_, por exemplo, e crie a extensão postgis:**
 
-`psql -U postgres -h localhost -p 5432`
 
-`SELECT * FROM pg_extension;`
+```shell
+psql -U postgres -h localhost -p 5432
 
-`CREATE EXTENSION postgis;`
+```
+
+
+```sql
+SELECT * FROM pg_extension;
+```
+
+
+```sql
+CREATE EXTENSION postgis;
+
+```
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/create.png" alt="Saida do comando create">
 
 **8 - Verifique se extensão foi criada:**
 
-`SELECT  oid,  extname, extowner, extnamespace, extrelocatable, extversion, extconfig FROM pg_extension;`
+```sql
+SELECT  oid,  extname, extowner, extnamespace, extrelocatable, extversion, extconfig FROM pg_extension;
 
+```
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/select.png" alt="Saida do comando select">
 
