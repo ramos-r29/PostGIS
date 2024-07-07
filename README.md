@@ -34,3 +34,7 @@ Para começar a usar o PostGIS, você precisará instalar o PostgreSQL e, em seg
 - Este arquivo auxilia na instalação do PostGIS:
   
   https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/postgis_install_debian.md
+
+- Este arquivo traz instruções de como importar um shapefile do IBGE para o banco de dados:
+  
+  https://github.com/ramos-r29/PostGIS/tree/main/02-Subir-shapefile-IBGE
