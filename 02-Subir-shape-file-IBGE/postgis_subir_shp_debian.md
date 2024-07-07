@@ -19,7 +19,7 @@
 
 <br>
 
-**02 - Faça login no PostgreSQL**
+**02 - Faça login no PostgreSQL:**
 ```shell
 psql -U postgres -h localhost -p 5432
 ```
@@ -31,31 +31,34 @@ psql -U postgres -h localhost -p 5432
 CREATE DATABASE db_geo;
 ```
 
-*Usando o client `psql` com o comando `\l` é possível listar os bancos dados existentes:*
+- *Usando o client `psql` com o comando `\l` é possível listar os bancos dados existentes:*
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/list_db.png" alt="Listar DB">
 
-*Troque a conexão para o novo banco dados*
+- *Troque a conexão para o novo banco dados:*
 
 ```shell
 /c db_geo
 ```
-*Crie a extensão PostGIS neste banco*
+- *Crie a extensão PostGIS neste banco:*
 ```sql
 CREATE EXTENSION postgis;
 ```
+
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/db_create.png" alt="Create DB">
+
+
 <br>
 
 
-**5 - Faça o download do arquivo `.zip` no site do IBGE, neste exemplo será utilizado o arquivo da malha municipal de 2022, mas pode ser aplicado a outros arquivos**
+**04 - Faça o download do arquivo `.zip` no site do IBGE, neste exemplo será utilizado o arquivo da malha municipal de 2022, mas pode ser aplicado a outros arquivos:**
 
-- *Verifique o `wget` esta instalado:*
+- *Verifique se o `wget` esta instalado:*
 ```shell
 which wget
 ```
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/verificar_wget.png" alt="wget">
 
-<br>
 
 - *Se `wget` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia,  altualize os pacotes e instale o `wget` caso necessário:*
 
@@ -67,8 +70,6 @@ sudo apt-get update
 sudo apt-get install -y wget
 ```
 
-<br>
-
 - *Faça o download do arquivo no site do IBGE:*
 
 ```shell
@@ -79,17 +80,15 @@ wget -P /home/rodrigo/Documents/shapefiles https://geoftp.ibge.gov.br/organizaca
 
 <br>
 
-**6 - É necessario descompactar o arquivo:**
+**05 - É necessario descompactar o arquivo:**
 
-- *Verifique se o `unzip` esta instalado*
+- *Verifique se o `unzip` esta instalado:*
 
 ```shel
 which unzip
 ```
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/verificar_unzip.png" alt="unzip">
-
-<br>
 
 - *Se o `unzip` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia, atualize os pacotes e realize a instalação:*
 
@@ -100,9 +99,7 @@ sudo apt-get update
 sudo apt-get install -y unzip
 ```
 
-<br>
-
-- *Descompactar o arquivo*
+- *Descompacte o arquivo:*
 ```shell
 unzip /home/rodrigo/Documents/shapefiles/BR_Municipios_2022.zip -d /home/rodrigo/Documents/shapefiles/malha_municipal_2022
 ```
@@ -110,9 +107,9 @@ unzip /home/rodrigo/Documents/shapefiles/BR_Municipios_2022.zip -d /home/rodrigo
 
 <br>
 
-**07 - Obter informação sobre a projeção utilizada no arquivo .shp (srid):**
+**06 - Obter informação sobre a projeção utilizada no arquivo .shp (srid):**
 
-*É possível obter dados sobe a projeção do `.shp` a partir do arquivo `.prj`*
+*É possível obter dados sobe a projeção do `.shp` a partir do arquivo `.prj`:*
 
 ```shell
 echo $(cat /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.prj)
@@ -124,8 +121,8 @@ echo $(cat /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios
 
 <br>
 
-*Também pode-se obter esses dados com o pacote `gdal-bin`*
-- *Atualize os pacotes e instale o `gdal-bin`*
+*Também pode-se obter esses dados com o pacote `gdal-bin`:*
+- *Atualize os pacotes e instale o `gdal-bin`:*
 ```shell
 apt-get update
 ```
@@ -133,7 +130,7 @@ apt-get update
 apt-get install -y gdal-bin
 ```
 
-*Obtenha os dados da projeção:*
+- *Obtenha os dados da projeção:*
 ```shell
 gdalsrsinfo /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp
 ```
@@ -141,11 +138,11 @@ gdalsrsinfo /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipio
 
 <br>
 
-**Nesta caso a projeção esta em EPSG 4674**
+***Nesta caso a projeção esta em EPSG 4674.***
 
 <br>
 
-**08 - Gerar a DDL a partir do aquivo `.shp`**
+**07 - Gerar a DDL a partir do aquivo `.shp`:**
 
 ```shell
 shp2pgsql -s 4674 -g geom -I /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp tb_municipios_2022 > /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql
@@ -181,6 +178,14 @@ shp2pgsql -s 4674 -g geom -I /home/rodrigo/Documents/shapefiles/malha_municipal_
   *Redireciona a saída dos comandos SQL gerados pelo shp2pgsql para o arquivo especificado. Neste caso, os comandos SQL serão escritos no arquivo /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql.*
 
 <br>
+
+**08 - Carregue a tabela no banco de dados:**
+
+```shell
+psql -U postgres -h localhost -p 5432 -d db_geo < /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql
+```
+
+
 
 
 
