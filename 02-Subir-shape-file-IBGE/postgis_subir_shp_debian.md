@@ -38,7 +38,7 @@ CREATE DATABASE db_geo;
 - *Troque a conexão para o novo banco dados:*
 
 ```shell
-/c db_geo
+\c db_geo
 ```
 - *Crie a extensão PostGIS neste banco:*
 ```sql
@@ -184,6 +184,9 @@ shp2pgsql -s 4674 -g geom -I /home/rodrigo/Documents/shapefiles/malha_municipal_
 ```shell
 psql -U postgres -h localhost -p 5432 -d db_geo < /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql
 ```
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/table.png" alt="table">
+
+*No client psql é possivel listar as tabelas da base com o comando `\d`:*
 
 
 
