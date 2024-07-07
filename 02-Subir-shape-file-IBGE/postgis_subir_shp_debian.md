@@ -26,17 +26,26 @@ psql -U postgres -h localhost -p 5432
 
 <br>
 
-**03 - Crie um banco de dados**
+**03 - Crie um banco de dados e a extensão PostGIS neste banco:**
 ```sql
 CREATE DATABASE db_geo;
 ```
-<br>
 
-**04 - Usando o client `psql` com o comando `\l` é possível listar os bancos dados existentes:**
+*Usando o client `psql` com o comando `\l` é possível listar os bancos dados existentes:*
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/list_db.png" alt="Listar DB">
 
+*Troque a conexão para o novo banco dados*
+
+```shell
+/c db_geo
+```
+*Crie a extensão PostGIS neste banco*
+```sql
+CREATE EXTENSION postgis;
+```
 <br>
+
 
 **5 - Faça o download do arquivo `.zip` no site do IBGE, neste exemplo será utilizado o arquivo da malha municipal de 2022, mas pode ser aplicado a outros arquivos**
 
@@ -101,18 +110,19 @@ unzip /home/rodrigo/Documents/shapefiles/BR_Municipios_2022.zip -d /home/rodrigo
 
 <br>
 
-**9 - Obter informação sobre a projeção utilizada no arquivo .shp (srid):**
+**07 - Obter informação sobre a projeção utilizada no arquivo .shp (srid):**
 
 *É possível obter dados sobe a projeção do `.shp` a partir do arquivo `.prj`*
 
+```shell
+echo $(cat /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.prj)
+```
 
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/arquivo_prj.png" alt="cat prj">
 
+*Foi utilizado o comando 'echo', pois, o arquivo `.prj` não costuma ter quebra de linha, e executando o `cat` com `echo` deixa visualmente melhor a saída.*
 
-
-
-
-
-
+<br>
 
 *Também pode-se obter esses dados com o pacote `gdal-bin`*
 - *Atualize os pacotes e instale o `gdal-bin`*
@@ -122,6 +132,57 @@ apt-get update
 ```shell
 apt-get install -y gdal-bin
 ```
+
+*Obtenha os dados da projeção:*
+```shell
+gdalsrsinfo /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp
+```
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/gdalsrsinfo.png" alt="gdalsrsinfo">
+
+<br>
+
+**Nesta caso a projeção esta em EPSG 4674**
+
+<br>
+
+**08 - Gerar a DDL a partir do aquivo `.shp`**
+
+```shell
+shp2pgsql -s 4674 -g geom -I /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp tb_municipios_2022 > /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql
+```
+
+*O comando `shp2pgsql` é usado para converter um arquivo shapefile (*.shp) em comandos SQL que podem ser executados em um banco de dados PostgreSQL com suporte a PostGIS. *
+
+**Explicação dos Parâmetros:**
+
+- **-s 4674:**
+  
+  *Especifica o sistema de coordenadas de entrada (SRS) do arquivo shapefile. Neste caso, 4674 é o código EPSG para o sistema de coordenadas SIRGAS 2000, conforme identificado anteriormente.*
+
+
+- **-g geom:**
+    
+  *Define o nome da coluna que armazenará a geometria (geometria espacial) no banco de dados. No exemplo, geom é o nome da coluna onde serão armazenadas as informações de geometria espacial (pontos, linhas, polígonos, etc.).*
+
+- **-I:**
+  
+  *Indica que o arquivo shapefile contém uma chave primária (primary key) que deve ser preservada durante a importação para o banco de dados. Isso é útil para garantir que não haja duplicatas ao inserir os dados no banco de dados.*
+
+- **/home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp:**
+  
+  *Caminho completo para o arquivo shapefile que será convertido para SQL. Neste caso, é o caminho para o arquivo BR_Municipios_2022.shp localizado no diretório /home/rodrigo/Documents/shapefiles/malha_municipal_2022/.*
+
+- **tb_municipios_2022:**
+  
+  *Nome da tabela que será criada no banco de dados PostgreSQL. Neste exemplo, a tabela será chamada tb_municipios_2022.*
+
+- **> /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql:**
+  
+  *Redireciona a saída dos comandos SQL gerados pelo shp2pgsql para o arquivo especificado. Neste caso, os comandos SQL serão escritos no arquivo /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql.*
+
+<br>
+
+
 
 
 
