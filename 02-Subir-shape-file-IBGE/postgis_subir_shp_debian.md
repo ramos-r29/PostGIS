@@ -50,11 +50,15 @@ wget -P /home/rodrigo/Documents/shapefiles https://geoftp.ibge.gov.br/organizaca
 
 **6 - É necessario descompactar o arquivo:**
 
-- *Verifique se o unzip esta instaldo*
+- *Verifique se o `unzip` esta instaldo*
 
 ```shel
   which unzip
 ```
+
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/verificar_unzip.png" alt="unzip">
+
+
 
 
 
