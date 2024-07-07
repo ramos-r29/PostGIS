@@ -33,7 +33,7 @@ CREATE DATABASE db_geo;
 
 - *Usando o client `psql` com o comando `\l` é possível listar os bancos dados existentes:*
 
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/list_db.png" alt="Listar DB">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/list_db.png" alt="Listar DB">
 
 - *Troque a conexão para o novo banco dados:*
 
@@ -45,7 +45,7 @@ CREATE DATABASE db_geo;
 CREATE EXTENSION postgis;
 ```
 
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/db_create.png" alt="Create DB">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/db_create.png" alt="Create DB">
 
 
 <br>
@@ -57,7 +57,7 @@ CREATE EXTENSION postgis;
 ```shell
 which wget
 ```
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/verificar_wget.png" alt="wget">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/verificar_wget.png" alt="wget">
 
 
 - *Se `wget` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia,  altualize os pacotes e instale o `wget` caso necessário:*
@@ -88,7 +88,7 @@ wget -P /home/rodrigo/Documents/shapefiles https://geoftp.ibge.gov.br/organizaca
 which unzip
 ```
 
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/verificar_unzip.png" alt="unzip">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/verificar_unzip.png" alt="unzip">
 
 - *Se o `unzip` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia, atualize os pacotes e realize a instalação:*
 
@@ -115,7 +115,7 @@ unzip /home/rodrigo/Documents/shapefiles/BR_Municipios_2022.zip -d /home/rodrigo
 echo $(cat /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.prj)
 ```
 
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/arquivo_prj.png" alt="cat prj">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/arquivo_prj.png" alt="cat prj">
 
 *Foi utilizado o comando 'echo', pois, o arquivo `.prj` não costuma ter quebra de linha, e executando o `cat` com `echo` deixa visualmente melhor a saída.*
 
@@ -134,7 +134,7 @@ apt-get install -y gdal-bin
 ```shell
 gdalsrsinfo /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp
 ```
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/gdalsrsinfo.png" alt="gdalsrsinfo">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/gdalsrsinfo.png" alt="gdalsrsinfo">
 
 <br>
 
@@ -184,11 +184,11 @@ shp2pgsql -s 4674 -g geom -I /home/rodrigo/Documents/shapefiles/malha_municipal_
 ```shell
 psql -U postgres -h localhost -p 5432 -d db_geo < /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql
 ```
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/table.png" alt="table">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/table.png" alt="table">
 
 *No client psql é possivel listar as tabelas da base com o comando `\d`:*
 
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/list_tables.png" alt="list tables">
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/list_tables.png" alt="list tables">
 
 #### Pronto, o arquivo esta carregado no banco de dados e pode ser integrado com sofwares SIG's como o QGIS por exemplo.
 
