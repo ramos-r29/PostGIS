@@ -23,7 +23,7 @@ https://github.com/ramos-r29/PostgreSQL/tree/main/01-PostgreSQL-install-debian
 
 <br>
 
-**3 - Verifique se extensão está disponível:**
+**3 - Verifique se extensão PostGIS está disponível:**
 
 
 ```shell
@@ -78,15 +78,13 @@ psql -U postgres -h localhost -p 5432
 ```sql
 SELECT * FROM pg_extension;
 ```
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/create.png" alt="Saida do comando create">
 
 
 ```sql
 CREATE EXTENSION postgis;
 
 ```
-
-<img src="https://github.com/ramos-r29/PostGIS/blob/main/01-PostGIS-install/imagens/create.png" alt="Saida do comando create">
-
 <br>
 
 **8 - Verifique se extensão foi criada:**
