@@ -40,6 +40,14 @@ CREATE DATABASE db_geo;
 
 **5 - Faça o download do arquivo `.shp` no site do IBGE, neste exemplo será utilizado o arquivo da malha municipal de 2022, mas pode ser aplicado a outros arquivos conforme precisar**
 
+- *Verifique o `wget` esta instalado:*
+```shell
+which wget
+```
+
+
+
+
 ```shell
 wget -P /home/rodrigo/Documents/shapefiles https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/BR_Municipios_2022.zip
 ```
@@ -50,16 +58,32 @@ wget -P /home/rodrigo/Documents/shapefiles https://geoftp.ibge.gov.br/organizaca
 
 **6 - É necessario descompactar o arquivo:**
 
-- *Verifique se o `unzip` esta instaldo*
+- *Verifique se o `unzip` esta instalado*
 
 ```shel
-  which unzip
+which unzip
 ```
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/verificar_unzip.png" alt="unzip">
 
+<br>
 
+- *Caso o `unzip` não esteja instalado atualize os pacotes e realize a instalação:*
 
+```shell
+sudo apt-get update
+```
+```shell
+sudo apt-get install -y unzip
+```
+
+<br>
+
+- *Descompactar o arquivo*
+```shell
+unzip /home/rodrigo/Documents/shapefiles/BR_Municipios_2022.zip -d /home/rodrigo/Documents/shapefiles/malha_municipal_2022
+```
+<br>
 
 
 
