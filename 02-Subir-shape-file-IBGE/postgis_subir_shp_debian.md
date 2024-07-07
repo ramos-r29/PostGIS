@@ -188,8 +188,9 @@ psql -U postgres -h localhost -p 5432 -d db_geo < /home/rodrigo/Documents/shapef
 
 *No client psql é possivel listar as tabelas da base com o comando `\d`:*
 
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/list_tables.png" alt="list tables">
 
-
+#### Pronto, o arquivo esta carregado no banco de dados e pode ser integrado com sofwares SIG's como o QGIS por exemplo.
 
 
 
