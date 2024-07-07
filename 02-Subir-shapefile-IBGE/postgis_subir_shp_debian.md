@@ -117,7 +117,7 @@ echo $(cat /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/arquivo_prj.png" alt="cat prj">
 
-*Foi utilizado o comando 'echo', pois, o arquivo `.prj` não costuma ter quebra de linha, e executando o `cat` com `echo` deixa visualmente melhor a saída.*
+*Foi utilizado o comando `echo`, pois, o arquivo `.prj` não costuma ter quebra de linha, e executando o `cat` com `echo` deixa visualmente melhor a saída.*
 
 <br>
 
@@ -138,7 +138,7 @@ gdalsrsinfo /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipio
 
 <br>
 
-***Nesta caso a projeção esta em EPSG 4674.***
+**Neste caso a projeção esta em EPSG 4674.**
 
 <br>
 
