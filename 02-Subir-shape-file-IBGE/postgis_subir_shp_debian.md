@@ -38,15 +38,29 @@ CREATE DATABASE db_geo;
 
 <br>
 
-**5 - Faça o download do arquivo `.shp` no site do IBGE, neste exemplo será utilizado o arquivo da malha municipal de 2022, mas pode ser aplicado a outros arquivos conforme precisar**
+**5 - Faça o download do arquivo `.zip` no site do IBGE, neste exemplo será utilizado o arquivo da malha municipal de 2022, mas pode ser aplicado a outros arquivos**
 
 - *Verifique o `wget` esta instalado:*
 ```shell
 which wget
 ```
+<img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shape-file-IBGE/imagens/verificar_wget.png" alt="wget">
 
+<br>
 
+- *Se `wget` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia,  altualize os pacotes e instale o `wget` caso necessário:*
 
+```shell
+sudo apt-get update
+```
+
+```shell
+sudo apt-get install -y wget
+```
+
+<br>
+
+- *Faça o download do arquivo no site do IBGE:*
 
 ```shell
 wget -P /home/rodrigo/Documents/shapefiles https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/BR_Municipios_2022.zip
@@ -68,7 +82,7 @@ which unzip
 
 <br>
 
-- *Caso o `unzip` não esteja instalado atualize os pacotes e realize a instalação:*
+- *Se o `unzip` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia, atualize os pacotes e realize a instalação:*
 
 ```shell
 sudo apt-get update
@@ -83,7 +97,31 @@ sudo apt-get install -y unzip
 ```shell
 unzip /home/rodrigo/Documents/shapefiles/BR_Municipios_2022.zip -d /home/rodrigo/Documents/shapefiles/malha_municipal_2022
 ```
+*Neste comando o parâmero `-d` cria o diretório indicado caso ele não exista.*
+
 <br>
+
+**9 - Obter informação sobre a projeção utilizada no arquivo .shp (srid):**
+
+*É possível obter dados sobe a projeção do `.shp` a partir do arquivo `.prj`*
+
+
+
+
+
+
+
+
+
+
+*Também pode-se obter esses dados com o pacote `gdal-bin`*
+- *Atualize os pacotes e instale o `gdal-bin`*
+```shell
+apt-get update
+```
+```shell
+apt-get install -y gdal-bin
+```
 
 
 
