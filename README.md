@@ -27,7 +27,7 @@ https://postgis.net/
 ## Como começar
 
 Para começar a usar o PostGIS, você precisará instalar o PostgreSQL e, em seguida, adicionar a extensão PostGIS. 
-- Este repositorio pode auxiliar na instação do PostgreSQL:
+- Este repositorio pode auxiliar na instalação do PostgreSQL:
   
   https://github.com/ramos-r29/PostgreSQL/tree/main/01-PostgreSQL-install-debian
 
