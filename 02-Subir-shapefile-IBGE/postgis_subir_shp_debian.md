@@ -31,16 +31,16 @@ psql -U postgres -h localhost -p 5432
 CREATE DATABASE db_geo;
 ```
 
-- *Usando o client `psql` com o comando `\l` é possível listar os bancos dados existentes:*
+- **Usando o client `psql` com o comando `\l` é possível listar os bancos dados existentes:**
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/list_db.png" alt="Listar DB">
 
-- *Troque a conexão para o novo banco dados:*
+- **Troque a conexão para o novo banco dados:**
 
 ```shell
 \c db_geo
 ```
-- *Crie a extensão PostGIS neste banco:*
+- **Crie a extensão PostGIS neste banco:**
 ```sql
 CREATE EXTENSION postgis;
 ```
@@ -53,14 +53,14 @@ CREATE EXTENSION postgis;
 
 **04 - Faça o download do arquivo `.zip` no site do IBGE, neste exemplo será utilizado o arquivo da malha municipal de 2022, mas pode ser aplicado a outros arquivos:**
 
-- *Verifique se o `wget` esta instalado:*
+- **Verifique se o `wget` esta instalado:**
 ```shell
 which wget
 ```
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/verificar_wget.png" alt="wget">
 
 
-- *Se `wget` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia,  altualize os pacotes e instale o `wget` caso necessário:*
+- **Se `wget` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia,  altualize os pacotes e instale o `wget` caso necessário:**
 
 ```shell
 sudo apt-get update
@@ -70,19 +70,19 @@ sudo apt-get update
 sudo apt-get install -y wget
 ```
 
-- *Faça o download do arquivo no site do IBGE:*
+- **Faça o download do arquivo no site do IBGE:**
 
 ```shell
 wget -P /home/rodrigo/Documents/shapefiles https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2022/Brasil/BR/BR_Municipios_2022.zip
 ```
 
-*O parâmetro `-P` possibilita indicar o diretório onde deseja salvar o arquivo do download.*
+**O parâmetro `-P` possibilita indicar o diretório onde deseja salvar o arquivo do download.**
 
 <br>
 
 **05 - É necessario descompactar o arquivo:**
 
-- *Verifique se o `unzip` esta instalado:*
+- **Verifique se o `unzip` esta instalado:**
 
 ```shel
 which unzip
@@ -90,7 +90,7 @@ which unzip
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/verificar_unzip.png" alt="unzip">
 
-- *Se o `unzip` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia, atualize os pacotes e realize a instalação:*
+- **Se o `unzip` estiver instalado a saída do comando `which` será algo similar a imagem acima, caso a saida seja vazia, atualize os pacotes e realize a instalação:**
 
 ```shell
 sudo apt-get update
@@ -99,17 +99,17 @@ sudo apt-get update
 sudo apt-get install -y unzip
 ```
 
-- *Descompacte o arquivo:*
+- **Descompacte o arquivo:**
 ```shell
 unzip /home/rodrigo/Documents/shapefiles/BR_Municipios_2022.zip -d /home/rodrigo/Documents/shapefiles/malha_municipal_2022
 ```
-*Neste comando o parâmero `-d` cria o diretório indicado caso ele não exista.*
+**Neste comando o parâmero `-d` cria o diretório indicado caso ele não exista.**
 
 <br>
 
 **06 - Obter informação sobre a projeção utilizada no arquivo .shp (srid):**
 
-*É possível obter dados sobe a projeção do `.shp` a partir do arquivo `.prj`:*
+**É possível obter dados sobe a projeção do `.shp` a partir do arquivo `.prj`:**
 
 ```shell
 echo $(cat /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.prj)
@@ -117,20 +117,20 @@ echo $(cat /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/arquivo_prj.png" alt="cat prj">
 
-*Foi utilizado o comando `echo`, pois, o arquivo `.prj` não costuma ter quebra de linha, e executando o `cat` com `echo` deixa visualmente melhor a saída.*
+**Foi utilizado o comando `echo`, pois, o arquivo `.prj` não costuma ter quebra de linha, e executando o `cat` com `echo` deixa visualmente melhor a saída.**
 
 <br>
 
-*Também pode-se obter esses dados com o pacote `gdal-bin`:*
-- *Atualize os pacotes e instale o `gdal-bin`:*
+**Também pode-se obter esses dados com o pacote `gdal-bin`:**
+- **Atualize os pacotes e instale o `gdal-bin`:**
 ```shell
-apt-get update
+sudo apt-get update
 ```
 ```shell
-apt-get install -y gdal-bin
+sudo apt-get install -y gdal-bin
 ```
 
-- *Obtenha os dados da projeção:*
+- **Obtenha os dados da projeção:**
 ```shell
 gdalsrsinfo /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp
 ```
@@ -148,34 +148,34 @@ gdalsrsinfo /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipio
 shp2pgsql -s 4674 -g geom -I /home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp tb_municipios_2022 > /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql
 ```
 
-*O comando `shp2pgsql` é usado para converter um arquivo shapefile (*.shp) em comandos SQL que podem ser executados em um banco de dados PostgreSQL com suporte a PostGIS. *
+**O comando `shp2pgsql` é usado para converter um arquivo shapefile (*.shp) em comandos SQL que podem ser executados em um banco de dados PostgreSQL com suporte a PostGIS.**
 
 **Explicação dos Parâmetros:**
 
 - **-s 4674:**
   
-  *Especifica o sistema de coordenadas de entrada (SRS) do arquivo shapefile. Neste caso, 4674 é o código EPSG para o sistema de coordenadas SIRGAS 2000, conforme identificado anteriormente.*
+  **Especifica o sistema de coordenadas de entrada (SRS) do arquivo shapefile. Neste caso, 4674 é o código EPSG para o sistema de coordenadas SIRGAS 2000, conforme identificado anteriormente.**
 
 
 - **-g geom:**
     
-  *Define o nome da coluna que armazenará a geometria (geometria espacial) no banco de dados. No exemplo, geom é o nome da coluna onde serão armazenadas as informações de geometria espacial (pontos, linhas, polígonos, etc.).*
+  **Define o nome da coluna que armazenará a geometria (geometria espacial) no banco de dados. No exemplo, geom é o nome da coluna onde serão armazenadas as informações de geometria espacial (pontos, linhas, polígonos, etc.).**
 
 - **-I:**
   
-  *Indica que o arquivo shapefile contém uma chave primária (primary key) que deve ser preservada durante a importação para o banco de dados. Isso é útil para garantir que não haja duplicatas ao inserir os dados no banco de dados.*
+  **Indica que o arquivo shapefile contém uma chave primária (primary key) que deve ser preservada durante a importação para o banco de dados. Isso é útil para garantir que não haja duplicatas ao inserir os dados no banco de dados.**
 
 - **/home/rodrigo/Documents/shapefiles/malha_municipal_2022/BR_Municipios_2022.shp:**
   
-  *Caminho completo para o arquivo shapefile que será convertido para SQL. Neste caso, é o caminho para o arquivo BR_Municipios_2022.shp localizado no diretório /home/rodrigo/Documents/shapefiles/malha_municipal_2022/.*
+  **Caminho completo para o arquivo shapefile que será convertido para SQL. Neste caso, é o caminho para o arquivo BR_Municipios_2022.shp localizado no diretório /home/rodrigo/Documents/shapefiles/malha_municipal_2022/.**
 
 - **tb_municipios_2022:**
   
-  *Nome da tabela que será criada no banco de dados PostgreSQL. Neste exemplo, a tabela será chamada tb_municipios_2022.*
+  **Nome da tabela que será criada no banco de dados PostgreSQL. Neste exemplo, a tabela será chamada tb_municipios_2022.**
 
 - **> /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql:**
   
-  *Redireciona a saída dos comandos SQL gerados pelo shp2pgsql para o arquivo especificado. Neste caso, os comandos SQL serão escritos no arquivo /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql.*
+  **Redireciona a saída dos comandos SQL gerados pelo shp2pgsql para o arquivo especificado. Neste caso, os comandos SQL serão escritos no arquivo /home/rodrigo/Documents/shapefiles/ddl/ddl_municipios_2022.sql.**
 
 <br>
 
@@ -186,7 +186,7 @@ psql -U postgres -h localhost -p 5432 -d db_geo < /home/rodrigo/Documents/shapef
 ```
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/table.png" alt="table">
 
-*No client psql é possivel listar as tabelas da base com o comando `\d`:*
+**No client psql é possivel listar as tabelas da base com o comando `\d`:**
 
 <img src="https://github.com/ramos-r29/PostGIS/blob/main/02-Subir-shapefile-IBGE/imagens/list_tables.png" alt="list tables">
 
